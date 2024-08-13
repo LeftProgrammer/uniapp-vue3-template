@@ -2,7 +2,7 @@
   "globalStyle": {
     "navigationStyle": "default",
     "navigationBarTitleText": "钦州海风",
-    "navigationBarBackgroundColor": "#f8f8f8",
+    "navigationBarBackgroundColor": "#0A57ED",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FFFFFF"
   },
@@ -31,18 +31,6 @@
         "text": "首页"
       },
       {
-        "iconPath": "static/tabbar/todo.png",
-        "selectedIconPath": "static/tabbar/todoHL.png",
-        "pagePath": "pages/todo/index",
-        "text": "待办"
-      },
-      {
-        "iconPath": "static/tabbar/mine.png",
-        "selectedIconPath": "static/tabbar/mineHL.png",
-        "pagePath": "pages/application/index",
-        "text": "应用"
-      },
-      {
         "iconPath": "static/tabbar/mine.png",
         "selectedIconPath": "static/tabbar/mineHL.png",
         "pagePath": "pages/mine/index",
@@ -55,84 +43,7 @@
       "path": "pages/home/index",
       "type": "home",
       "style": {
-        "navigationStyle": "custom"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/application/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "应用管理"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/construction/detail",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "工序数据填报"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/construction/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": ""
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/construction/list",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": ""
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/contactList/detail",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "人员信息"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/contactList/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "通讯录"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/dolphinWatch/dataForm",
-      "type": "page",
-      "style": {}
-    },
-    {
-      "path": "pages/dolphinWatch/detail",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "观豚日志"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/dolphinWatch/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "观豚日志"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/inspection/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": ""
+        "navigationBarTitleText": "工程概览"
       },
       "needLogin": true
     },
@@ -148,130 +59,6 @@
       "type": "page",
       "style": {
         "navigationStyle": "custom"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/QRCode/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "通行码"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/statement/index",
-      "type": "page",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "产品服务协议"
-      }
-    },
-    {
-      "path": "pages/todo/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "待办"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/transportPlan/detail",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "运输计划详情"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/transportPlan/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "运输计划"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/travelRecord/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "通行记录"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/video/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "视频监控"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/weather/evaluate",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "气象评估"
-      }
-    },
-    {
-      "path": "pages/weather/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "天气预报"
-      }
-    },
-    {
-      "path": "pages/weather/weatherTrend",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "天气趋势"
-      }
-    },
-    {
-      "path": "pages/weather/weatherWarn",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "气象预警"
-      }
-    },
-    {
-      "path": "pages/windShelter/monitor/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "避风监控"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/windShelter/notice/detail",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "新增避风通知"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/windShelter/notice/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "避风通知"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/windShelter/report/detail",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "避风报备"
-      },
-      "needLogin": true
-    },
-    {
-      "path": "pages/windShelter/report/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "避风报备"
       },
       "needLogin": true
     },

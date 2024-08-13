@@ -2,253 +2,149 @@
 <route lang="json5" type="home">
 {
   style: {
-    navigationStyle: 'custom',
+    navigationBarTitleText: '工程概览',
   },
   needLogin: true,
 }
 </route>
 <template>
-  <view class="page h-full relative overflow-hidden bg-top bg-no-repeat bg-cover">
-    <z-paging ref="paging" refresher-only @onRefresh="onRefresh" :auto="false">
-      <template #top>
-        <view
-          class="header-wrapper p-2.5 z-10 bg-top bg-no-repeat bg-cover"
-          :style="{ paddingTop: safeAreaInsets?.top + 10 + 'px' }"
-        >
-          <view class="h-full flex items-center c-#fff">
-            <view class="avatar w-12 h-12 m-r-3 border-2 border-white rounded-1.5">
-              <image
-                class="w-full h-full rounded-1.5"
-                :src="userInfo.picture || '/static/home/avatar.png'"
-              />
-            </view>
-            <view class="flex flex-col justify-between flex-1">
-              <view class="flex items-center justify-start h-7 text-5">
-                <view class="name">你好，{{ userInfo.name }}</view>
-              </view>
-              <view class="tip text-3.5">今日工作辛苦了！</view>
-            </view>
-          </view>
+  <view class="page h-full overflow-hidden bg-#fff p-b-3">
+    <view class="w-full h-full relative overflow-auto">
+      <view class="banner z-1 absolute top-0 left-0 right-0 h-65"></view>
+      <view class="absolute z-10 left-0 right-0">
+        <view class="w-full h-41 px-3 m-t-3">
+          <image
+            class="w-full h-full"
+            src="../../static/home/avatar.png"
+            mode="scaleToFill"
+          ></image>
         </view>
-      </template>
-      <view class="h-full relative overflow-auto p-2.5">
-        <view class="info flex justify-between h-35">
+        <view class="flex justify-between items-center h-24 px-3 m-t-6">
           <view
-            class="info-left relative p-2 text-white rounded-lg shadow-[0_1_2_0_rgba(37,70,233,0.32)] min-w-40 bg-no-repeat bg-cover"
-            @click="handleGoWeather"
-            :style="{
-              backgroundImage: `url(../../static/weather/img/${weatherBg(weatherData?.weatherCode)}.png)`,
-            }"
+            class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
           >
-            <view class="flex items-center">
-              <uv-image
-                v-if="weatherData?.weatherCode"
-                :src="`/static/weather/img/icon/${weatherData?.weatherCode}.png`"
-                width="48px"
-                height="48px"
-              ></uv-image>
-              <uv-image
-                v-else
-                src="/static/weather/img/icon/1036.png"
-                width="48px"
-                height="48px"
-              ></uv-image>
-              <view class="ml-2 text-8">{{ weatherData?.temperature }}</view>
-              <view class="flex flex-col justify-around h-full ml-1.5">
-                <view class="text-3.5">℃</view>
-                <view v-if="weatherData?.weatherDescription.length < 4" class="text-3.5">
-                  {{ weatherData?.weatherDescription }}
-                </view>
-                <uv-notice-bar
-                  v-else
-                  :icon="false"
-                  style="width: 100%"
-                  :text="weatherData?.weatherDescription"
-                  :speed="30"
-                  color="#fff"
-                  :customStyle="{
-                    background: 'transparent',
-                    padding: 0,
-                    display: 'block',
-                    flex: 'unset',
-                  }"
-                ></uv-notice-bar>
-              </view>
-            </view>
-            <view
-              class="left-bottom absolute top-17 right-0 bottom-0 left-0 flex flex-col justify-between py-2.25 px-2 rounded-lg"
-            >
-              <view class="flex items-center text-3.5">
-                <view class="desc h-6 px-3 leading-6 text-center rounded-md">
-                  {{ weatherData?.windMark ? `${weatherData?.windMark}风` : '无' }}
-                </view>
-                <view class="ml-2" v-if="weatherData?.windMark">
-                  {{ getJsonLevel(weatherData.windSpeed, 'wind_levels').level }}级
-                </view>
-              </view>
-              <view class="flex items-center text-3.5">
-                <view class="desc h-6 px-3 leading-6 text-center rounded-md">能见度</view>
-                <view class="ml-2">{{ weatherData?.visibility }}km</view>
-              </view>
-            </view>
+            <image class="w-7 h-7" src="../../static/home/avatar.png"></image>
+            <text class="c-#9C9C9C text-3">视频监控</text>
+            <text class="c-#222222 text-5">256</text>
           </view>
-          <view class="flex flex-1 flex-col justify-between ml-2">
-            <view class="flex h-16.5 px-2 items-center bg-white rounded-lg" @click="handleOpenCode">
-              <image class="w-10 h-10" src="../../static/home/code-icon.png"></image>
-              <view class="h-10 flex flex-col justify-between ml-2">
-                <view class="text-4 font-bold leading-5 text-[#1d2129]">我的通行码</view>
-                <view class="text-3 leading-5 text-[#3254ff]">出航请出示</view>
-              </view>
-            </view>
-            <view
-              class="flex h-16.5 px-2 items-center bg-white rounded-lg"
-              @click="handleOpenRecord"
-            >
-              <image class="w-10 h-10" src="../../static/home/record-icon.png"></image>
-              <view class="h-10 flex flex-col justify-between ml-2">
-                <view class="text-4 font-bold leading-5 text-[#1d2129]">出航记录</view>
-                <view class="text-3 leading-5 text-[#5ab76f]">已出航{{ countData }}次</view>
-              </view>
-            </view>
+          <view
+            class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
+          >
+            <image class="w-7 h-7" src="../../static/home/avatar.png"></image>
+            <text class="c-#9C9C9C text-3">在场车辆</text>
+            <text class="c-#222222 text-5">124</text>
+          </view>
+          <view
+            class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
+          >
+            <image class="w-7 h-7" src="../../static/home/avatar.png"></image>
+            <text class="c-#9C9C9C text-3">在场人员</text>
+            <text class="c-#222222 text-5">624</text>
           </view>
         </view>
 
-        <view
-          class="menu p-2.75 mt-2.75 bg-white rounded-1.875 shadow-[0_1_1.375_0_rgba(152,178,244,0.1)]"
-        >
-          <jh-menus :menu-list="menuData" @moreMenu="handleMore" @itemClick="handleItemClick" />
+        <view class="m-t-10 px-3">
+          <BlockHeader
+            title="工期介绍"
+            bgColor="white"
+            barColor="#1851E4"
+            class="px-2"
+          ></BlockHeader>
+          <view class="w-full flex m-b-2">
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">总工期</text>
+                <text class="c-#3254FF text-4">69个月</text>
+              </view>
+            </view>
+            <view class="w-2"></view>
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">总投资</text>
+                <text class="c-#3254FF text-4">99.7亿元</text>
+              </view>
+            </view>
+          </view>
+          <view class="w-full flex m-b-2">
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">装机容量</text>
+                <text class="c-#3254FF text-4">1180MW</text>
+              </view>
+            </view>
+            <view class="w-2"></view>
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">年发电量</text>
+                <text class="c-#3254FF text-4">20亿千瓦时</text>
+              </view>
+            </view>
+          </view>
+          <view class="w-full flex m-b-2">
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">年抽水量</text>
+                <text class="c-#3254FF text-4">27.21亿千瓦时</text>
+              </view>
+            </view>
+            <view class="w-2"></view>
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">核准日期</text>
+                <text class="c-#3254FF text-4">2023年11月30日</text>
+              </view>
+            </view>
+          </view>
+          <view class="w-full flex">
+            <view class="px-3 py-2 flex items-center flex-1 bg-#EAF5FF rounded-1">
+              <image class="w-8 h-8" src="../../static/home/avatar.png"></image>
+              <view class="flex flex-col justify-between m-l-2.5">
+                <text class="c-#9C9C9C text-3 m-b-1">计划完工日期</text>
+                <text class="c-#3254FF text-4">2028年首台机组投产，2029年全部建成</text>
+              </view>
+            </view>
+          </view>
         </view>
 
-        <view class="mt-3">
-          <jh-card v-bind="weatherCard">
-            <template v-slot:body>
-              <view class="py-3 mx-3 border-b border-[#e5e6eb]">
-                <template v-if="extremeWeatherData?.content">
-                  <view
-                    class="text-4 text-[#ff7d00] mb-2"
-                    :class="{
-                      weatherType1: extremeWeatherData?.warningLevel === '红色',
-                      weatherType2: extremeWeatherData?.warningLevel === '黄色',
-                      weatherType3: extremeWeatherData?.warningLevel === '橙色',
-                      weatherType4: extremeWeatherData?.warningLevel === '蓝色',
-                      weatherType5: extremeWeatherData?.warningLevel === '白色',
-                    }"
-                  >
-                    {{ extremeWeatherData?.type }}{{ extremeWeatherData?.warningLevel }}预警
-                  </view>
-                  <uv-read-more show-height="130rpx" :toggle="true" closeText="全文">
-                    <view class="text-4 leading-6 text-[#1d2129]">
-                      {{ extremeWeatherData?.content }}
-                    </view>
-                  </uv-read-more>
-                  <view class="text-3.5 text-[#86909c] mt-3">
-                    数据来源： {{ extremeWeatherData?.releaseSource }}
-                  </view>
-                </template>
-                <uv-empty
-                  v-else
-                  icon="../../static/home/empty-weather.png"
-                  text="近期无气象预警"
-                  width="130px"
-                  height="85px"
-                ></uv-empty>
+        <view class="m-t-9 bg-#CADFFF p-3 rounded-3">
+          <BlockHeader
+            title="引水工程"
+            bgColor="#CADFFF"
+            barColor="#1851E4"
+            class="px-2"
+          ></BlockHeader>
+          <view class="w-full px-2 py-4.25 bg-white rounded-2">
+            <view class="w-full flex m-b-2 c-#fff text-3.5">
+              <view class="flex-1 h-7 flex items-center px-2.5 bg-#05A557">线路总长：23.03km</view>
+              <view class="w-2"></view>
+              <view class="flex-1 h-7 flex items-center px-2.5 bg-#05A557">埋管长度: 22.78km</view>
+            </view>
+            <view class="w-full flex m-b-2.5 c-#fff text-3.5">
+              <view class="flex-1 h-7 flex items-center px-2.5 bg-#05A557">渠道长度: 0.25km</view>
+              <view class="w-2"></view>
+              <view class="flex-1 h-7 flex items-center px-2.5 bg-#05A557">
+                设计补水流量: 0.5 m³/s
               </view>
-            </template>
-
-            <template v-slot:footer>
-              <view class="w-full h-11.5 flex items-center justify-center">
-                <view
-                  class="text-4 leading-6 text-[#3254ff]"
-                  @click="handleGo('windnotifycationData')"
-                >
-                  预警详情
-                </view>
-                <!-- <view v-else class="text-4 leading-6 text-[#ebedf0]">预警详情</view> -->
-              </view>
-            </template>
-          </jh-card>
-        </view>
-        <view class="mt-3">
-          <jh-card v-bind="windShelter">
-            <template v-slot:body>
-              <view class="py-3 mx-3 border-b border-[#e5e6eb]">
-                <template v-if="windnotifycationData?.content">
-                  <uv-read-more show-height="130rpx" :toggle="true" closeText="全文">
-                    <view class="text-4 leading-6 text-[#1d2129]">
-                      {{ windnotifycationData?.content }}
-                    </view>
-                  </uv-read-more>
-                  <view class="text-3.5 text-[#86909c] mt-3">
-                    联系人：{{ windnotifycationData?.contactInfo?.name }}
-                    {{ windnotifycationData?.contactInfo?.phone }}
-                  </view>
-                </template>
-                <uv-empty
-                  v-else
-                  icon="../../static/home/empty-wind.png"
-                  text="近期无避风通知"
-                  width="130px"
-                  height="85px"
-                ></uv-empty>
-              </view>
-            </template>
-            <template v-slot:footer>
-              <view class="w-full h-11.5 flex items-center justify-center">
-                <view
-                  class="text-4 leading-6 text-[#3254ff]"
-                  @click="handleGo('windShelterMonitor')"
-                >
-                  避风监控
-                </view>
-                <!-- <view v-else class="text-4 leading-6 text-[#ebedf0]">避风监控</view> -->
-              </view>
-            </template>
-          </jh-card>
-        </view>
-        <view class="mt-3">
-          <jh-card v-bind="fence">
-            <template v-slot:body>
-              <view class="py-3 mx-3">
-                <template v-if="shipAlarmData?.length > 0">
-                  <view
-                    class="flex items-center justify-between pb-2.5 border-b border-[#e5e6eb]"
-                    v-for="(item, index) in shipAlarmData"
-                    :key="index"
-                  >
-                    <view class="flex-1">
-                      <view class="text-3.5 text-[#1d2129] leading-5.5">{{ item.name }}</view>
-                      <view class="text-3 text-[#86909c] leading-5">
-                        {{ dayjs(item.lasttime).format('YYYY-MM-DD HH:mm') }}
-                      </view>
-                    </view>
-                    <view class="text-4 text-[#3254ff] leading-6">定位 ></view>
-                  </view>
-                </template>
-                <uv-empty
-                  v-else
-                  icon="../../static/home/empty-fence.png"
-                  text="围栏内无外部船舶"
-                  width="130px"
-                  height="85px"
-                ></uv-empty>
-              </view>
-            </template>
-          </jh-card>
+            </view>
+            <view class="text-3.5">
+              <text class="c-#6C6E72">水源点：</text>
+              <text class="c-#282828">甘肃中部生态移民扶贫开发供水工程南干渠 6#站进水池</text>
+            </view>
+          </view>
         </view>
       </view>
-    </z-paging>
+    </view>
   </view>
-  <uv-modal
-    ref="modal"
-    title="提示"
-    confirmText="知道了"
-    content="您的观豚日志有未提交，请尽快提交！"
-  ></uv-modal>
 </template>
 
 <script setup>
-import JhMenus from '@/components/jh-menus/index.vue'
-import JhCard from '@/components/jh-card/index.vue'
+import BlockHeader from '@/components/BlockHeader/index.vue'
 import { useToast } from '@/utils/modals/index'
 import { useAppStore, useUserStore } from '@/store'
 import {
@@ -501,17 +397,35 @@ const handleGo = (type) => {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  background-image: url('@/static/home/banner.png');
-  background-size: cover; /* 确保背景图覆盖整个页面 */
-  background-repeat: no-repeat;
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 260px;
+  width: 100%;
+  background: linear-gradient(180deg, #0a57ed 0%, #74bcff 100%);
 }
-.header-wrapper {
-  background-image: url('@/static/home/banner.png');
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-  // background-size: cover; /* 确保背景图覆盖整个页面 */
-  // background-repeat: no-repeat;
+
+.box-item {
+  box-shadow: 0px 4px 6px 0px rgba(123, 123, 123, 0.28);
 }
+
+// .banner-image {
+//   width: 100%;
+//   height: 100%;
+//   display: block;
+// }
+// .page {
+//   background-image: url('@/static/home/banner.png');
+//   background-size: cover; /* 确保背景图覆盖整个页面 */
+//   background-repeat: no-repeat;
+// }
+// .header-wrapper {
+//   background-image: url('@/static/home/banner.png');
+//   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+//   // background-size: cover; /* 确保背景图覆盖整个页面 */
+//   // background-repeat: no-repeat;
+// }
 
 .info {
   .info-left {

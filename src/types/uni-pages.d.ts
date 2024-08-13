@@ -5,40 +5,14 @@
 
 interface NavigateToOptions {
   url: "/pages/home/index" |
-       "/pages/application/index" |
-       "/pages/construction/detail" |
-       "/pages/construction/index" |
-       "/pages/construction/list" |
-       "/pages/contactList/detail" |
-       "/pages/contactList/index" |
-       "/pages/dolphinWatch/dataForm" |
-       "/pages/dolphinWatch/detail" |
-       "/pages/dolphinWatch/index" |
-       "/pages/inspection/index" |
        "/pages/login/index" |
        "/pages/mine/index" |
-       "/pages/QRCode/index" |
-       "/pages/statement/index" |
-       "/pages/todo/index" |
-       "/pages/transportPlan/detail" |
-       "/pages/transportPlan/index" |
-       "/pages/travelRecord/index" |
-       "/pages/video/index" |
-       "/pages/weather/evaluate" |
-       "/pages/weather/index" |
-       "/pages/weather/weatherTrend" |
-       "/pages/weather/weatherWarn" |
-       "/pages/windShelter/monitor/index" |
-       "/pages/windShelter/notice/detail" |
-       "/pages/windShelter/notice/index" |
-       "/pages/windShelter/report/detail" |
-       "/pages/windShelter/report/index" |
        "/uni_modules/uni-upgrade-center-app/pages/upgrade-popup";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/home/index" | "/pages/todo/index" | "/pages/application/index" | "/pages/mine/index"
+  url: "/pages/home/index" | "/pages/mine/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

@@ -5,32 +5,13 @@
 
 interface NavigateToOptions {
   url: "/pages/home/index" |
-       "/pages/about/about" |
-       "/pages/application/index" |
-       "/pages/construction/detail" |
-       "/pages/construction/index" |
-       "/pages/construction/list" |
-       "/pages/dolphinWatch/dataForm" |
-       "/pages/dolphinWatch/detail" |
-       "/pages/dolphinWatch/index" |
-       "/pages/inspection/index" |
        "/pages/login/index" |
-       "/pages/mine/index" |
-       "/pages/QRCode/index" |
-       "/pages/statement/index" |
-       "/pages/todo/index" |
-       "/pages/weather/index" |
-       "/pages/weather/weatherTrend" |
-       "/pages/weather/weatherWarn" |
-       "/pages/windShelter/notice/detail" |
-       "/pages/windShelter/notice/index" |
-       "/pages/windShelter/report/detail" |
-       "/pages/windShelter/report/index";
+       "/pages/mine/index" ;
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/home/index" | "/pages/todo/index" | "/pages/mine/index"
+  url: "/pages/home/index" | "/pages/mine/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

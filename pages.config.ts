@@ -4,7 +4,7 @@ export default defineUniPages({
   globalStyle: {
     navigationStyle: 'default',
     navigationBarTitleText: '钦州海风',
-    navigationBarBackgroundColor: '#f8f8f8',
+    navigationBarBackgroundColor: '#0A57ED',
     navigationBarTextStyle: 'black',
     backgroundColor: '#FFFFFF',
   },
@@ -34,29 +34,11 @@ export default defineUniPages({
         text: '首页',
       },
       {
-        iconPath: 'static/tabbar/todo.png',
-        selectedIconPath: 'static/tabbar/todoHL.png',
-        pagePath: 'pages/todo/index',
-        text: '待办',
-      },
-      {
-        iconPath: 'static/tabbar/mine.png',
-        selectedIconPath: 'static/tabbar/mineHL.png',
-        pagePath: 'pages/application/index',
-        text: '应用',
-      },
-      {
         iconPath: 'static/tabbar/mine.png',
         selectedIconPath: 'static/tabbar/mineHL.png',
         pagePath: 'pages/mine/index',
         text: '我的',
       },
-      // {
-      //   iconPath: 'static/tabbar/mine.png',
-      //   selectedIconPath: 'static/tabbar/mineHL.png',
-      //   pagePath: 'pages/login/index',
-      //   text: '登录',
-      // },
     ],
   },
   pages: [

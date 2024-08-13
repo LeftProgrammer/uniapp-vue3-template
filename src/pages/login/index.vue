@@ -7,7 +7,9 @@
 </route>
 <template>
   <view class="page h-full bg-f8fcfd overflow-hidden">
-    <view class="banner"></view>
+    <view class="banner">
+      <image class="banner-image" src="../../static/login/banner.png" mode="widthFix"></image>
+    </view>
     <view class="main">
       <view class="header">用户登录</view>
       <uv-form ref="formRef" :model="form" :rules="rules" labelPosition="top">
@@ -44,7 +46,7 @@
             </template>
           </uv-input>
         </uv-form-item>
-        <uv-form-item prop="captcha">
+        <!-- <uv-form-item prop="captcha">
           <template v-slot:label>
             <view class="flex flex-justify-start flex-items-center">
               <uv-icon name="more-circle" size="24" color="#2979ff" class="mr-1"></uv-icon>
@@ -52,7 +54,7 @@
             </view>
           </template>
           <captcha ref="captchaRef" class="w-full" v-model="form.captcha" />
-        </uv-form-item>
+        </uv-form-item> -->
         <uv-form-item>
           <uv-checkbox-group v-model="rememberMe" class="flex justify-end">
             <uv-checkbox label="记住密码" :name="true"></uv-checkbox>
@@ -83,7 +85,7 @@ import { login, queryByUsername } from '@/service/home/index'
 import { useUserStore } from '@/store'
 import { useToast } from '@/utils/modals'
 import { currRoute } from '@/utils/index'
-import Captcha from '@/components/Captcha.vue'
+// import Captcha from '@/components/Captcha.vue'
 
 const userStore = useUserStore()
 const formRef = ref(null)
@@ -92,7 +94,7 @@ const showPassword = ref(true)
 const form = ref({
   username: '',
   password: '',
-  captcha: '',
+  // captcha: '',
 })
 const rememberMe = ref([])
 const rules = ref({
@@ -113,21 +115,21 @@ const rules = ref({
       trigger: ['blur', 'change'],
     },
   ],
-  captcha: [
-    {
-      validator: (rule, value, callback) => {
-        console.error('value', value)
-        if (!value) {
-          callback(new Error('请输入验证码'))
-        } else if (!captchaRef.value.validateCaptcha()) {
-          callback(new Error('验证码错误'))
-        } else {
-          callback()
-        }
-      },
-      trigger: ['blur', 'change'],
-    },
-  ],
+  // captcha: [
+  //   {
+  //     validator: (rule, value, callback) => {
+  //       console.error('value', value)
+  //       if (!value) {
+  //         callback(new Error('请输入验证码'))
+  //       } else if (!captchaRef.value.validateCaptcha()) {
+  //         callback(new Error('验证码错误'))
+  //       } else {
+  //         callback()
+  //       }
+  //     },
+  //     trigger: ['blur', 'change'],
+  //   },
+  // ],
 })
 
 // 加密密码
@@ -153,7 +155,7 @@ const handleLogin = async () => {
   const params = {
     username: form.value.username,
     password: form.value.password,
-    captcha: form.value.captcha,
+    // captcha: form.value.captcha,
   }
   const { code, message, result } = await login(params)
 
@@ -211,13 +213,15 @@ onMounted(() => {
 .banner {
   position: absolute;
   top: 0;
-  right: 0;
   left: 0;
   height: 318px;
-  background-image: url('@/static/login/banner.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  width: 100%;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .main {
   min-height: 468px;
@@ -245,14 +249,14 @@ onMounted(() => {
   font-size: 16px;
 }
 
-.captcha-image {
-  width: 100px;
-  height: 36px;
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
+// .captcha-image {
+//   width: 100px;
+//   height: 36px;
+//   img {
+//     width: 100%;
+//     height: 100%;
+//   }
+// }
 
 .footer {
   .line-left,
