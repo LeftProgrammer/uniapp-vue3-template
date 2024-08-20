@@ -16,6 +16,5 @@ export default store
 // 模块统一导出
 export * from './user'
 export * from './app'
-export * from './inspection'
 export * from './dict'
 export * from './network'

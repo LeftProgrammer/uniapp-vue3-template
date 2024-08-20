@@ -28,13 +28,13 @@
         "iconPath": "static/tabbar/home.png",
         "selectedIconPath": "static/tabbar/homeHL.png",
         "pagePath": "pages/home/index",
-        "text": "首页"
+        "text": "概览"
       },
       {
         "iconPath": "static/tabbar/mine.png",
         "selectedIconPath": "static/tabbar/mineHL.png",
-        "pagePath": "pages/mine/index",
-        "text": "我的"
+        "pagePath": "pages/monitor/index",
+        "text": "监控"
       }
     ]
   },
@@ -55,10 +55,18 @@
       }
     },
     {
-      "path": "pages/mine/index",
+      "path": "pages/monitor/detail",
       "type": "page",
       "style": {
-        "navigationStyle": "custom"
+        "navigationBarTitleText": "视频详情"
+      },
+      "needLogin": true
+    },
+    {
+      "path": "pages/monitor/index",
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "视频监控"
       },
       "needLogin": true
     },

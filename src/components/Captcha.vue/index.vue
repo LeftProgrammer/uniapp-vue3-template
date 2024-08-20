@@ -15,21 +15,23 @@ const props = defineProps({
   modelValue: String,
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'update:timestamp'])
 
 const localValue = ref(props.modelValue)
-
 const captchaSrc = ref('')
+const timestamp = ref(null)
 
 const refreshCaptcha = async () => {
-  const { success, result } = await getCaptcha()
-  console.log(success, result)
+  timestamp.value = Date.now() // 生成当前时间戳
+  const { success, result } = await getCaptcha(timestamp.value)
   if (success) {
     captchaSrc.value = result
   } else {
     // 处理获取验证码失败的情况
     captchaSrc.value = '../../static/login/checkcode.png'
   }
+  // 触发事件，将时间戳传给父组件
+  emit('update:timestamp', timestamp.value)
 }
 
 const validateCaptcha = () => {

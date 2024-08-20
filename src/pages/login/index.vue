@@ -46,15 +46,20 @@
             </template>
           </uv-input>
         </uv-form-item>
-        <!-- <uv-form-item prop="captcha">
+        <uv-form-item prop="captcha">
           <template v-slot:label>
             <view class="flex flex-justify-start flex-items-center">
               <uv-icon name="more-circle" size="24" color="#2979ff" class="mr-1"></uv-icon>
               <view class="label">验证码</view>
             </view>
           </template>
-          <captcha ref="captchaRef" class="w-full" v-model="form.captcha" />
-        </uv-form-item> -->
+          <Captcha
+            ref="captchaRef"
+            class="w-full"
+            v-model="form.captcha"
+            @update:timestamp="handleTimestampUpdate"
+          />
+        </uv-form-item>
         <uv-form-item>
           <uv-checkbox-group v-model="rememberMe" class="flex justify-end">
             <uv-checkbox label="记住密码" :name="true"></uv-checkbox>
@@ -81,20 +86,21 @@
 <script lang="js" setup>
 import { ref } from 'vue'
 import { version } from '../../../package.json'
-import { login, queryByUsername } from '@/service/home/index'
+import { login } from '@/service/home/index'
 import { useUserStore } from '@/store'
 import { useToast } from '@/utils/modals'
 import { currRoute } from '@/utils/index'
-// import Captcha from '@/components/Captcha.vue'
+import Captcha from '@/components/Captcha.vue'
 
 const userStore = useUserStore()
 const formRef = ref(null)
 const captchaRef = ref(null)
+const timestamp = ref(null)
 const showPassword = ref(true)
 const form = ref({
   username: '',
   password: '',
-  // captcha: '',
+  captcha: '',
 })
 const rememberMe = ref([])
 const rules = ref({
@@ -108,43 +114,43 @@ const rules = ref({
       message: '请输入密码',
       trigger: ['blur', 'change'],
     },
+    // {
+    //   min: 8,
+    //   max: 16,
+    //   message: '密码由数字、字母和特殊符号组成，长度8-16位',
+    //   trigger: ['blur', 'change'],
+    // },
+  ],
+  captcha: [
     {
-      min: 8,
-      max: 16,
-      message: '密码由数字、字母和特殊符号组成，长度8-16位',
+      validator: (rule, value, callback) => {
+        console.error('value', value)
+        if (!value) {
+          callback(new Error('请输入验证码'))
+        } else if (!captchaRef.value.validateCaptcha()) {
+          callback(new Error('验证码错误'))
+        } else {
+          callback()
+        }
+      },
       trigger: ['blur', 'change'],
     },
   ],
-  // captcha: [
-  //   {
-  //     validator: (rule, value, callback) => {
-  //       console.error('value', value)
-  //       if (!value) {
-  //         callback(new Error('请输入验证码'))
-  //       } else if (!captchaRef.value.validateCaptcha()) {
-  //         callback(new Error('验证码错误'))
-  //       } else {
-  //         callback()
-  //       }
-  //     },
-  //     trigger: ['blur', 'change'],
-  //   },
-  // ],
 })
 
-// 加密密码
-const encryptPassword = (password) => {
-  return btoa(password) // 使用 Base64 编码进行简单加密
-}
+// // 加密密码
+// const encryptPassword = (password) => {
+//   return btoa(password) // 使用 Base64 编码进行简单加密
+// }
 
-// 解密密码
-const decryptPassword = (encryptedPassword) => {
-  try {
-    return atob(encryptedPassword) // 使用 Base64 解码进行解密
-  } catch (e) {
-    return ''
-  }
-}
+// // 解密密码
+// const decryptPassword = (encryptedPassword) => {
+//   try {
+//     return atob(encryptedPassword) // 使用 Base64 解码进行解密
+//   } catch (e) {
+//     return ''
+//   }
+// }
 
 const handleLogin = async () => {
   const valid = await formRef.value.validate()
@@ -155,52 +161,48 @@ const handleLogin = async () => {
   const params = {
     username: form.value.username,
     password: form.value.password,
-    // captcha: form.value.captcha,
+    captcha: form.value.captcha,
+    checkKey: timestamp.value,
   }
   const { code, message, result } = await login(params)
 
   if (code === 200) {
-    let userInfo = result.userInfo || {}
+    const userInfo = result.userInfo || {}
     userStore.setToken(result.token)
-    const {
-      code: companyCode,
-      message: companyMessage,
-      result: companyResult,
-    } = await queryByUsername({})
+    userStore.setUserInfo(userInfo)
+    handleSuccess()
 
-    if (companyCode === 200) {
-      userInfo = { ...userInfo, ...companyResult }
-      userStore.setUserInfo(userInfo)
-
-      handleSuccess()
-
-      const { query } = currRoute()
-      useToast('登录成功')
-      const redirectUrl = query.redirect || '/pages/home/index?fromLogin=1'
-      uni.reLaunch({
-        url: redirectUrl,
-      })
-    } else {
-      useToast(companyMessage)
-    }
+    const { query } = currRoute()
+    useToast('登录成功')
+    const redirectUrl = query.redirect || '/pages/home/index?fromLogin=1'
+    uni.reLaunch({
+      url: redirectUrl,
+    })
   } else {
     useToast(message)
+    captchaRef.value.refreshCaptcha()
   }
 }
 
 const handleSuccess = () => {
   if (rememberMe.value.length > 0) {
-    userStore.setEncryptedPassword(encryptPassword(form.value.password))
+    // userStore.setEncryptedPassword(encryptPassword(form.value.password))
+    userStore.setEncryptedPassword(form.value.password)
   } else {
     userStore.clearEncryptedPassword()
   }
+}
+
+const handleTimestampUpdate = (newTimestamp) => {
+  timestamp.value = newTimestamp
 }
 
 // 页面加载时读取缓存的账号密码
 onMounted(() => {
   if (userStore.userInfo.username && userStore.encryptedPassword) {
     form.value.username = userStore.userInfo.username
-    form.value.password = decryptPassword(userStore.encryptedPassword)
+    // form.value.password = decryptPassword(userStore.encryptedPassword)
+    form.value.password = userStore.encryptedPassword
     rememberMe.value.push(true)
   }
 })
@@ -249,14 +251,14 @@ onMounted(() => {
   font-size: 16px;
 }
 
-// .captcha-image {
-//   width: 100px;
-//   height: 36px;
-//   img {
-//     width: 100%;
-//     height: 100%;
-//   }
-// }
+.captcha-image {
+  width: 100px;
+  height: 36px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
 
 .footer {
   .line-left,

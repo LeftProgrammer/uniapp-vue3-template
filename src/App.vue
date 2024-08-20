@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 import { checkAndRedirect } from '@/interceptors/route'
-import checkUpdate from '@/uni_modules/uni-upgrade-center-app/utils/check-update'
 
 onLaunch(() => {
   console.log('App onLaunch')
@@ -10,13 +9,6 @@ onLaunch(() => {
 onShow(() => {
   console.log('App onShow')
   checkAndRedirect()
-  checkUpdate()
-    .then((res) => {
-      console.log('云函数调用成功:', res)
-    })
-    .catch((err) => {
-      console.error('云函数调用失败:', err)
-    })
 })
 onHide(() => {
   console.log('App Hide')
@@ -29,13 +21,6 @@ onHide(() => {
 button::after {
   border: none;
 }
-
-// swiper,
-// scroll-view {
-//   flex: 1;
-//   height: 100%;
-//   overflow: hidden;
-// }
 
 image {
   width: 100%;

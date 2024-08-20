@@ -6,13 +6,14 @@
 interface NavigateToOptions {
   url: "/pages/home/index" |
        "/pages/login/index" |
-       "/pages/mine/index" |
+       "/pages/monitor/detail" |
+       "/pages/monitor/index" |
        "/uni_modules/uni-upgrade-center-app/pages/upgrade-popup";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/home/index" | "/pages/mine/index"
+  url: "/pages/home/index" | "/pages/monitor/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

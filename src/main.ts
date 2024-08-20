@@ -6,7 +6,6 @@ import JhEmpty from '@/components/jh-empty/index.vue'
 import { routeInterceptor, requestInterceptor, prototypeInterceptor } from './interceptors'
 import { useDialog, useLoading, useToast } from './utils/modals/index'
 import { checkNetwork } from './utils/index'
-import { fetchDataAndCache } from '@/utils/offline/offlineDataManager'
 import 'virtual:uno.css'
 // import VConsole from 'vconsole'
 
@@ -26,8 +25,6 @@ export function createApp() {
   app.config.globalProperties.$toast = useToast
   app.config.globalProperties.$loading = useLoading
   app.config.globalProperties.$checkNetwork = checkNetwork
-  // 调用缓存数据刷新函数
-  fetchDataAndCache()
   return {
     app,
   }

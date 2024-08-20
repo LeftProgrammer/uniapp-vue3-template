@@ -1,6 +1,6 @@
 // src/stores/dictionary.ts
 import { defineStore } from 'pinia'
-import { getDict } from '@/service/dict/index'
+import { getDictItems } from '@/service/dict/index'
 
 export const useDictionaryStore = defineStore(
   'dictionary',
@@ -24,7 +24,7 @@ export const useDictionaryStore = defineStore(
       dictionary.value[key] = { data, timestamp: new Date().getTime(), timeout }
     }
     const fetchFromAPI = async (key: string) => {
-      const response = await getDict(key)
+      const response = await getDictItems(key)
       return response.result || []
     }
     return {
