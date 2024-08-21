@@ -7,8 +7,7 @@ interface NavigateToOptions {
   url: "/pages/home/index" |
        "/pages/login/index" |
        "/pages/monitor/detail" |
-       "/pages/monitor/index" |
-       "/uni_modules/uni-upgrade-center-app/pages/upgrade-popup";
+       "/pages/monitor/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

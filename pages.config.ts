@@ -3,7 +3,7 @@ import { defineUniPages } from '@uni-helper/vite-plugin-uni-pages'
 export default defineUniPages({
   globalStyle: {
     navigationStyle: 'default',
-    navigationBarTitleText: '钦州海风',
+    navigationBarTitleText: '平川抽蓄',
     navigationBarBackgroundColor: '#0A57ED',
     navigationBarTextStyle: 'black',
     backgroundColor: '#FFFFFF',
@@ -28,34 +28,24 @@ export default defineUniPages({
     spacing: '3px',
     list: [
       {
-        iconPath: 'static/tabbar/home.png',
-        selectedIconPath: 'static/tabbar/homeHL.png',
+        iconPath: 'static/tabbar/overview_01.png',
+        selectedIconPath: 'static/tabbar/overview_02.png',
         pagePath: 'pages/home/index',
         text: '概览',
       },
       {
-        iconPath: 'static/tabbar/mine.png',
-        selectedIconPath: 'static/tabbar/mineHL.png',
+        iconPath: 'static/tabbar/monitor_01.png',
+        selectedIconPath: 'static/tabbar/monitor_02.png',
         pagePath: 'pages/monitor/index',
         text: '监控',
       },
     ],
   },
-  pages: [
-    {
-      path: 'uni_modules/uni-upgrade-center-app/pages/upgrade-popup',
-      style: {
-        disableScroll: true,
-        'app-plus': {
-          backgroundColorTop: 'transparent',
-          background: '#00000000',
-          titleNView: false,
-          scrollIndicator: 'none',
-          popGesture: 'none',
-          animationType: 'fade-in',
-          animationDuration: 200,
-        },
-      },
-    },
-  ],
+  plugins: {
+    // TODO：需要授权？
+    // HikVideoPlugin: {
+    //   version: '1.0.0',
+    //   provider: 'wx0e203209e27b1e66', // 海康威视提供的插件ID
+    // },
+  },
 })

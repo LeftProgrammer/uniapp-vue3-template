@@ -47,5 +47,19 @@ export const getMinitorList = (data) => {
     data,
   })
 }
+// 获取出勤人员
+export const getPersonList = (data) => {
+  return http({
+    url: `/monitor/person/personStatistics`,
+    method: 'GET',
+    data,
+  })
+}
 // 获取在场车辆
-// 获取在场人员
+export const getCarList = (data) => {
+  return http({
+    url: `/monitor/car/carTotalCount`,
+    method: 'GET',
+    data,
+  })
+}

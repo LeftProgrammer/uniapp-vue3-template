@@ -2,7 +2,7 @@
   "name": "haifeng-app",
   "type": "commonjs",
   "version": "1.0.0",
-  "description": "钦州海风",
+  "description": "平川抽蓄",
   "engines": {
     "node": ">=18",
     "pnpm": ">=7.30"

@@ -25,7 +25,7 @@
         sign="dropDown_1"
         :extra-icon="{ name: 'arrow-down-fill', color: '#666', size: '26rpx' }"
         :extra-active-icon="{ name: 'arrow-up-fill', color: '#3c9cff', size: '26rpx' }"
-        :custom-style="{ padding: '0 60rpx' }"
+        :custom-style="{ padding: '0 30rpx' }"
         @click="selectMenu"
         :defaultValue="defaultValue"
       >
@@ -53,26 +53,37 @@
         <view class="w-1 h-2.5 bg-#1851E4 mr-1.5"></view>
         <text class="text-4.5 c-#1D2129 font-600">监控列表（{{ total }}）</text>
       </view>
-
-      <view class="flex-1 overflow-y-auto flex flex-wrap justify-between">
-        <view
-          class="minitor-item w-48% h-50 bg-#FFFFFF mb-4 rounded-2 relative overflow-hidden"
-          v-for="(item, index) in pageList"
-          :key="index"
-          @click="toDetail(item)"
-        >
-          <view class="w-8.25 h-6 absolute top-0 right-0" :class="item.minitorType"></view>
-          <view v-if="!item.equipmentUrl" class="w-full h-29" :src="item.equipmentUrl" />
-          <view v-else class="w-full h-29 flex justify-center items-center bg-#D6D6D6">
-            <image class="w-15.5 h-14.5" src="../../static/monitor/offline.png" />
+      <scroll-view class="flex-1 overflow-y-auto" :scroll-y="true" @scrolltolower="loadmore">
+        <view class="w-full h-full flex flex-wrap justify-between">
+          <view
+            class="minitor-item w-48% h-50 bg-#FFFFFF mb-4 rounded-2 relative overflow-hidden"
+            v-for="(item, index) in pageList"
+            :key="index"
+            @click="toDetail(item)"
+          >
+            <view
+              class="w-8.25 h-6 absolute top-0 right-0 rounded-bl-2 rounded-tr-2"
+              :class="item.minitorType"
+            ></view>
+            <image
+              v-if="item.equipmentUrl"
+              class="w-full h-29"
+              src="../../static/monitor/online.png"
+            />
+            <view v-else class="w-full h-29 flex justify-center items-center bg-#D6D6D6">
+              <image class="w-15.5 h-14.5" src="../../static/monitor/offline.png" />
+            </view>
+            <view class="px-2 pt-1 pb-2.5 text-3.5">
+              <view class="c-#1D2129 mb-1.5">{{ item.minitorName }}</view>
+              <view class="c-#999999 mb-1.5">编号：{{ item.equipmentSerial }}</view>
+              <view class="c-#999999">类型：{{ getDictName(item.minitorType) }}</view>
+            </view>
           </view>
-          <view class="px-2 pt-1 pb-2.5 text-3.5">
-            <view class="c-#1D2129 mb-1.5">{{ item.minitorName }}</view>
-            <view class="c-#999999 mb-1.5">编号：{{ item.equipmentSerial }}</view>
-            <view class="c-#999999">类型：{{ getDictName(item.minitorType) }}</view>
+          <view class="w-full">
+            <uv-load-more :status="status" @loadmore="loadmore" />
           </view>
         </view>
-      </view>
+      </scroll-view>
     </view>
   </view>
 </template>
@@ -112,6 +123,8 @@ const queryParams = reactive({
 
 const pageList = ref([])
 const total = ref(0)
+const pages = ref(0)
+const status = ref('loadmore')
 
 const currentDropItem = computed(() => {
   return filters.value.find((item) => item.name === activeName.value)
@@ -141,19 +154,39 @@ onLoad(() => {
   getMonitors(queryParams)
 })
 
+const getDictName = (code) => {
+  const item = filters.value[0].child.find((x) => x.value === code)
+  return item ? item.label : ''
+}
+
 const getMonitors = async (params) => {
   const { code, message, result } = await getMinitorList(params)
   if (code === 200 && result) {
-    pageList.value = result.records || []
-    total.value = result.total
+    total.value = result?.total || 0
+    pages.value = Math.ceil(total.value / params.pageSize)
+    pageList.value = pageList.value.concat(result?.records || [])
+    status.value = params.pageNo >= pages.value ? 'nomore' : 'loadmore'
   } else {
     useToast(message)
   }
 }
 
-const getDictName = (code) => {
-  const item = filters.value[0].child.find((x) => x.value === code)
-  return item ? item.label : ''
+const loadmore = () => {
+  if (queryParams.pageNo < pages.value) {
+    status.value = 'loading'
+    queryParams.pageNo += 1
+    getMonitors(queryParams)
+  } else {
+    status.value = 'nomore'
+  }
+}
+
+const initializeParams = () => {
+  queryParams.pageNo = 1
+  queryParams.pageSize = 10
+  pageList.value = []
+  total.value = 0
+  status.value = 'loadmore'
 }
 
 const selectMenu = (e) => {
@@ -166,7 +199,7 @@ const clickItem = (e) => {
     queryParams[activeName.value] = e.value
     selectedFilter.label = e.label
     selectedFilter.value = e.value
-
+    initializeParams()
     getMonitors(queryParams)
   }
 }
@@ -199,6 +232,10 @@ const toDetail = (item) => {
   }
   .Panorama {
     background-image: url('../../static/monitor/Panorama.svg');
+  }
+  &:nth-last-child(2),
+  &:nth-last-child(3) {
+    margin-bottom: 0;
   }
 }
 </style>

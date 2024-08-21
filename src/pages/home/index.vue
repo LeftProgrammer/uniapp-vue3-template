@@ -3,12 +3,19 @@
 {
   style: {
     navigationBarTitleText: '工程概览',
+    enablePullDownRefresh: true, // 启用下拉刷新
   },
   needLogin: true,
 }
 </route>
 <template>
-  <view class="page h-full overflow-hidden bg-#fff">
+  <uv-loading-page
+    v-if="loading"
+    :loading="loading"
+    loading-text="加载中..."
+    font-size="24rpx"
+  ></uv-loading-page>
+  <view v-else class="h-full overflow-hidden bg-#fff">
     <view class="w-full h-full relative overflow-auto">
       <view class="banner z-1 absolute top-0 left-0 right-0 h-65"></view>
       <view class="absolute z-10 left-0 right-0">
@@ -22,22 +29,22 @@
             class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
           >
             <image class="w-7 h-7" src="../../static/home/img_01.png" />
-            <text class="c-#9C9C9C text-3">视频监控</text>
-            <text class="c-#222222 text-5 font-600">{{ monitorNum }}</text>
-          </view>
-          <view
-            class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
-          >
-            <image class="w-7 h-7" src="../../static/home/img_02.png" />
-            <text class="c-#9C9C9C text-3">在场车辆</text>
-            <text class="c-#222222 text-5 font-600">{{ personNum }}</text>
+            <text class="c-#9C9C9C text-3 leading-4.5">视频监控</text>
+            <text class="c-#222222 text-5 font-600 leading-4.5">{{ monitorNum }}</text>
           </view>
           <view
             class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
           >
             <image class="w-7 h-7" src="../../static/home/img_03.png" />
-            <text class="c-#9C9C9C text-3">在场人员</text>
-            <text class="c-#222222 text-5 font-600">{{ carNum }}</text>
+            <text class="c-#9C9C9C text-3 leading-4.5">出勤人员</text>
+            <text class="c-#222222 text-5 font-600 leading-4.5">{{ carNum }}</text>
+          </view>
+          <view
+            class="box-item w-28 h-full flex flex-col justify-between items-center py-2.5 bg-#fff rounded-1"
+          >
+            <image class="w-7 h-7" src="../../static/home/img_02.png" />
+            <text class="c-#9C9C9C text-3 leading-4.5">在场车辆</text>
+            <text class="c-#222222 text-5 font-600 leading-4.5">{{ personNum }}</text>
           </view>
         </view>
 
@@ -146,27 +153,72 @@
 </template>
 
 <script setup>
-import { getMinitorList } from '@/service/home'
+import { getMinitorList, getPersonList, getCarList } from '@/service/home'
 import { useToast } from '@/utils/modals/index'
 
+const loading = ref(true)
 const monitorNum = ref(0)
 const personNum = ref(0)
 const carNum = ref(0)
 
-onLoad(() => {
-  getMonitorNum()
+onShow(() => {
+  loading.value = ref(true)
+  loadData()
 })
 
-const getMonitorNum = async (params) => {
-  const { code, message, result } = await getMinitorList(params)
-  if (code === 200 && result) {
-    monitorNum.value = result.total || 0
-    personNum.value = result.total + 10 || 0
-    carNum.value = result.total + 23 || 0
-  } else {
-    useToast(message)
+onMounted(() => {
+  // 设置下拉刷新的背景颜色和文本样式
+  uni.setBackgroundTextStyle({
+    textStyle: 'light',
+  })
+  uni.setBackgroundColor({
+    backgroundColor: '#1851E4',
+    backgroundColorTop: '#1851E4',
+    backgroundColorBottom: '#1851E4',
+  })
+})
+
+const loadData = async () => {
+  try {
+    const minitorParams = {
+      pageNo: 1,
+      pageSize: 1,
+    }
+    const monitorRes = await getMinitorList(minitorParams)
+    const personRes = await getPersonList()
+    const carRes = await getCarList()
+
+    if (monitorRes.code === 200) {
+      monitorNum.value = monitorRes.result?.total || 0
+    } else {
+      useToast(monitorRes.message)
+    }
+    if (personRes.code === 200) {
+      if (personRes?.result.length > 0) {
+        personNum.value = personRes?.result[personRes?.result.length - 1]?.count
+      }
+    } else {
+      useToast(personRes.message)
+    }
+    if (carRes.code === 200) {
+      carNum.value = carRes?.result || 0
+    } else {
+      useToast(carRes.message)
+    }
+  } catch (error) {
+    useToast('数据加载失败')
+  } finally {
+    loading.value = false
   }
 }
+
+// 处理下拉刷新
+onPullDownRefresh(() => {
+  // 刷新数据
+  loadData().then(() => {
+    uni.stopPullDownRefresh()
+  })
+})
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 {
-  "name": "钦州海风",
+  "name": "平川抽蓄",
   "appid": "__UNI__F927A4D",
   "description": "",
   "versionName": "1.0.0",
@@ -84,7 +84,7 @@
   },
   "quickapp": {},
   "mp-weixin": {
-    "appid": "wxa2abb91f64032a2b",
+    "appid": "wx26af342fd375631f",
     "setting": {
       "urlCheck": false
     },

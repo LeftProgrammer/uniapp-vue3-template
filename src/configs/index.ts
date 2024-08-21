@@ -1,6 +1,6 @@
 import { isH5 } from '@uni-helper/uni-env'
 
-export const appName = '钦州海风'
+export const appName = '平川抽蓄'
 
 // 项目主题色
 export const primaryColor = '#3254FF'

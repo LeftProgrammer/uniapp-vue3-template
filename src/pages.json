@@ -1,7 +1,7 @@
 {
   "globalStyle": {
     "navigationStyle": "default",
-    "navigationBarTitleText": "钦州海风",
+    "navigationBarTitleText": "平川抽蓄",
     "navigationBarBackgroundColor": "#0A57ED",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FFFFFF"
@@ -25,25 +25,27 @@
     "spacing": "3px",
     "list": [
       {
-        "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/homeHL.png",
+        "iconPath": "static/tabbar/overview_01.png",
+        "selectedIconPath": "static/tabbar/overview_02.png",
         "pagePath": "pages/home/index",
         "text": "概览"
       },
       {
-        "iconPath": "static/tabbar/mine.png",
-        "selectedIconPath": "static/tabbar/mineHL.png",
+        "iconPath": "static/tabbar/monitor_01.png",
+        "selectedIconPath": "static/tabbar/monitor_02.png",
         "pagePath": "pages/monitor/index",
         "text": "监控"
       }
     ]
   },
+  "plugins": {},
   "pages": [
     {
       "path": "pages/home/index",
       "type": "home",
       "style": {
-        "navigationBarTitleText": "工程概览"
+        "navigationBarTitleText": "工程概览",
+        "enablePullDownRefresh": true
       },
       "needLogin": true
     },
@@ -69,21 +71,6 @@
         "navigationBarTitleText": "视频监控"
       },
       "needLogin": true
-    },
-    {
-      "path": "uni_modules/uni-upgrade-center-app/pages/upgrade-popup",
-      "style": {
-        "disableScroll": true,
-        "app-plus": {
-          "backgroundColorTop": "transparent",
-          "background": "#00000000",
-          "titleNView": false,
-          "scrollIndicator": "none",
-          "popGesture": "none",
-          "animationType": "fade-in",
-          "animationDuration": 200
-        }
-      }
     }
   ],
   "subPackages": []
