@@ -49,11 +49,11 @@
         </view>
 
         <view class="w-full px-2 mt-10">
-          <image class="w-full h-74" src="../../static/home/content_01.png" />
+          <image class="w-full h-74" src="../../static/home/content_01.svg" />
         </view>
 
         <view class="w-full mt-9">
-          <image class="w-full h-324" src="../../static/home/content_02.png" />
+          <image class="w-full h-324" src="../../static/home/content_02.svg" />
         </view>
 
         <!-- <view class="m-t-10 px-3">

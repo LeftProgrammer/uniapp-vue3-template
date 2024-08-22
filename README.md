@@ -27,7 +27,7 @@
 
 <p align="center">
   <a href="https://codercup.github.io/unibest-docs/" target="_blank">📖 文档地址</a>
-  <span style="margin:0 10px;">|</span>
+  <text style="margin:0 10px;">|</text>
   <a href="https://codercup.github.io/hello-unibest/" target="_blank">📱 DEMO 地址</a>
 </p>
 

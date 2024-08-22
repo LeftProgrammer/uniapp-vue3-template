@@ -19,21 +19,20 @@ const isLogined = () => {
 const isDev = import.meta.env.DEV
 
 export const checkAndRedirect = (url?: string) => {
-  console.error('url', url)
-
   if (!url) {
     const pages = getCurrentPages()
-    const currentPage = pages[pages.length - 1]
-    url = '/' + currentPage.route
+    if (pages.length === 0) {
+      // 页面栈为空时，可能是应用刚启动，这里可以设置一个默认的URL
+      url = loginRoute
+    } else {
+      const currentPage = pages[pages.length - 1]
+      url = `/${currentPage.route}`
+    }
   }
-  console.error('url==========', url)
   const path = url.split('?')[0]
-  let needLoginPages: string[] = []
-  if (isDev) {
-    needLoginPages = getNeedLoginPages()
-  } else {
-    needLoginPages = _needLoginPages
-  }
+  // 获取需要登录的页面列表
+  const needLoginPages = isDev ? getNeedLoginPages() : _needLoginPages
+
   const isNeedLogin = needLoginPages.includes(path)
   if (!isNeedLogin) {
     return true
